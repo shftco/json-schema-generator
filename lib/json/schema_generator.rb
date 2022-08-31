@@ -52,7 +52,7 @@ module JSON
         @buffer.puts statement_group
         result
       else
-        JSON.parse(JSON.parse(statement_group.to_json))
+        statement_group.to_json
       end
     end
 
