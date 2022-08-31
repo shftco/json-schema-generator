@@ -1,6 +1,5 @@
 require 'json/schema_generator/statement_group'
 require 'json/schema_generator/brute_force_required_search'
-require 'json'
 
 module JSON
   class SchemaGenerator
@@ -41,7 +40,6 @@ module JSON
 
       statement_group = StatementGroup.new
       statement_group.add "\"$schema\": \"http://json-schema.org/#{@version}/schema#\""
-      statement_group.add "\"description\": \"Generated from #{@name} with shasum #{Digest::SHA1.hexdigest raw_data}\""
       case data
       when Array
         $stop = true
