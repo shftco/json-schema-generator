@@ -19,7 +19,7 @@ module JSON
 
     def initialize name, opts = {}
       version = opts[:schema_version] || DEFAULT_VERSION
-      save_to_file = opts[:save_to_file] || DEFAULT_SAVE_TO_FILE
+      @save_to_file = opts[:save_to_file] || DEFAULT_SAVE_TO_FILE
       # Unfortunately json-schema.org and json-schema (gem) use different version strings
       if ['draft3', 'draft-03'].include? version.to_s.downcase
         @version = DRAFT3
