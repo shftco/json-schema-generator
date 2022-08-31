@@ -1,11 +1,13 @@
 require 'json/schema_generator/statement_group'
 require 'json/schema_generator/brute_force_required_search'
+require 'json'
 
 module JSON
   class SchemaGenerator
     DRAFT3 = 'draft-03'
     DRAFT4 = 'draft-04'
     DEFAULT_VERSION = 'draft4'
+    DEFAULT_SAVE_TO_FILE = false
     SUPPORTED_VERSIONS = ['draft3', 'draft4']
 
     class << self
@@ -17,6 +19,7 @@ module JSON
 
     def initialize name, opts = {}
       version = opts[:schema_version] || DEFAULT_VERSION
+      save_to_file = opts[:save_to_file] || DEFAULT_SAVE_TO_FILE
       # Unfortunately json-schema.org and json-schema (gem) use different version strings
       if ['draft3', 'draft-03'].include? version.to_s.downcase
         @version = DRAFT3
@@ -46,8 +49,13 @@ module JSON
       else
         create_hash(statement_group, data, detect_required(data))
       end
-      @buffer.puts statement_group
-      result
+
+      if @save_to_file
+        @buffer.puts statement_group
+        result
+      else
+        JSON.parse(JSON.parse(statement_group.to_json))
+      end
     end
 
     protected
